@@ -28,6 +28,7 @@ class Transaksi extends Authenticatable
         'lok_coord_lat',
         'tipe',
         'author',
+        'transaction_code',
     ];
 
     /**
@@ -36,6 +37,6 @@ class Transaksi extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'transaction_code',
+        
     ];
 }

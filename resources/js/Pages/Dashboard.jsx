@@ -77,7 +77,6 @@ export default function Dashboard(props) {
                         <h2 className="font-extrabold text-2xl md:text-4xl">Feed</h2>
                         <div className="flex flex-col gap-2">
                             <Feed author={"Faisal"} authorid={1} time={"31 Juli 2022"} children={"Test"} type={"text"} />
-                            <Feed author={"Ernia"} authorid={2} time={"31 Juli 2022"} children={"Casu"} />
                         </div>
                     </div>
                     

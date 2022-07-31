@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Authenticated from '@/Layouts/Authenticated';
-import { Head, Link } from '@inertiajs/inertia-react';
+import { Head, Link, useForm } from '@inertiajs/inertia-react';
 import axios from 'axios';
 import Feed from '@/Components/Feed';
 import { BiPlus } from 'react-icons/all'
@@ -11,19 +11,26 @@ import Button from '@/Components/Button';
 export default function NewTransaction(props) {
     const [ lastTransaction, setLastTransaction ] = useState();
     const [ balance, setBalance ] = useState(0);
-    const [ tcode, setTcode ] = useState("LOADING");
 
-    const generateRandomString = (myLength) => {
-        const chars =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        const randomArray = Array.from(
-          { length: myLength },
-          (v, k) => chars[Math.floor(Math.random() * chars.length)]
-        );
-      
-        const randomString = randomArray.join("");
-        return randomString;
-      };
+    const { data, setData, post, processing, errors, reset } = useForm({
+        nama: '',
+        currency: '',
+        debit: 0,
+        vendor: '',
+        lokasi: '',
+        tipe: 1
+    });
+
+    const onHandleChange = (event) => {
+        console.log(event)
+        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+
+        post(route('addtransaction'));
+    };
 
     useEffect(() => {
         axios.get("/api/balance")
@@ -42,7 +49,6 @@ export default function NewTransaction(props) {
         })
         .catch(console.error)
 
-        setTcode(generateRandomString(8));
     }, [])
 
     return (
@@ -74,25 +80,27 @@ export default function NewTransaction(props) {
                         </div>
                         <div className="bg-stone-300 dark:bg-slate-900 p-7 rounded-b-xl md:rounded-bl-none md:rounded-r-xl flex flex-col justify-between md:w-1/3">
                             <h2 className="font-bold">Coming soon</h2>
-                            {/* <p className="text-3xl text-right">IDR 192.000,00</p> */}
+                            
                         </div>
                     </div>
                     
                     <div className="flex flex-col gap-5">
                         <h2 className="font-extrabold text-2xl md:text-4xl">Add Transaction</h2>
-                        <form onSubmit={()=>{}} className="flex flex-col gap-2">
+                        <form onSubmit={()=>{e.preventDefault()}} className="flex flex-col gap-2">
                             <div className="">
                                 <Label forInput={"name"} value={"Nama transaksi"} className="dark:text-white" />
                                 <Input
                                     type='text'
-                                    name='name'
+                                    name='nama'
                                     isFocused={true}
                                     className="dark:bg-slate-700 border-none"
+                                    handleChange={onHandleChange}
                                 />
                             </div>
                             <div className="">
                                 <Label forInput={"currency"} value={"Mata uang"} className="dark:text-white" />
-                                <select className="rounded-lg dark:bg-slate-700">
+                                <select className="rounded-lg dark:bg-slate-700" onChange={(e) => {setData("currency", e.currentTarget.value)}}>
+                                    <option></option>
                                     <option value="IDR">IDR - Indonesian Rupiah</option>
                                 </select>
                             </div>
@@ -103,41 +111,39 @@ export default function NewTransaction(props) {
                                     name='debit'
                                     isFocused={true}
                                     className="dark:bg-slate-700 border-none"
+                                    handleChange={onHandleChange}
                                 />
                             </div>
                             <div className="">
                                 <Label forInput={"vendor"} value={"Vendor"} className="dark:text-white" />
                                 <Input
                                     type='text'
-                                    name='name'
+                                    name='vendor'
                                     placeholder="Kodam, McDonald's, Cilok depan UPN"
                                     isFocused={true}
                                     className="dark:bg-slate-700 border-none"
+                                    handleChange={onHandleChange}
                                 />
                             </div>
                             <div className="">
                                 <Label forInput={"lokasi"} value={"Lokasi"} className="dark:text-white" />
                                 <Input
                                     type='text'
-                                    name='name'
+                                    name='lokasi'
                                     placeholder={`Surabaya, UPN "Veteran" Jawa Timur`}
                                     isFocused={true}
                                     className="dark:bg-slate-700 border-none"
+                                    handleChange={onHandleChange}
                                 />
                             </div>
-                            <div className="bg-slate-900 w-fit mt-3 rounded-lg">
-                                <span className="bg-gradient-to-r from-fuchsia-800 to-purple-600 px-3 py-2 rounded-t-lg">Kode transaksi</span>
-                                <p className="font-mono px-3 py-2 text-center text-xl">
-                                    {tcode}
-                                </p>
+                            
+                            
+                                
+                            <div>
+                                <Button type='submit' onClick={submit} children={"Simpan"} />
                             </div>
-                            {
-                                tcode && tcode !== "LOADING" ? 
-                                <div>
-                                    <Button type='submit' children={"Simpan"} />
-                                </div>
-                                : "Menunggu kode transaksi..."
-                            }
+                                
+                            
                         </form>
                     </div>
                 </div>

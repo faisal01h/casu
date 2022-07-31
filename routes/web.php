@@ -45,4 +45,6 @@ Route::get('/transaction/new', function () {
     return Inertia::render('NewTransaction');
 })->middleware(['auth', 'verified'])->name('newtransaction');
 
+Route::post('/transaction/new', [TransaksiController::class, 'addTransaction'])->middleware(['auth', 'verified'])->name('addtransaction');
+
 require __DIR__.'/auth.php';

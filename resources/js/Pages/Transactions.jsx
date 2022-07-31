@@ -79,7 +79,7 @@ export default function Transactions(props) {
                                 transactions.map((e, i) => {
                                     return (
                                         <div key={i} className={`bg-slate-200 dark:bg-slate-700 p-3 rounded-md border-l-4 ${e.debit > 0 ? "border-emerald-600":"border-rose-600"}`}>
-                                            {e.debit} untuk {e.nama} oleh {e.author.name}
+                                            {e.debit} untuk {e.nama} oleh {e.author.name} di {e.vendor} {e.lokasi} <span className="font-mono text-xs text-slate-300">TCODE: {e.transaction_code}</span>
                                         </div>
                                     )
                                 }) : "Tidak ada transaksi"
