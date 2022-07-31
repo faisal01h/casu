@@ -1,0 +1,33 @@
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url(/assets/fonts/PlusJakartaSans/PlusJakartaSans-Regular.woff2);
+    font-weight: regular;
+}
+
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url(/assets/fonts/PlusJakartaSans/PlusJakartaSans-Bold.woff2);
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url(/assets/fonts/PlusJakartaSans/PlusJakartaSans-Semibold.woff2);
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url(/assets/fonts/PlusJakartaSans/PlusJakartaSans-Medium.woff2);
+    font-weight: 600;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+h1, h2, h3, h4, h5, h6, .plus-jakarta-sans {
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+p, a, span, button, div, .inter {
+    font-family: 'Inter', sans-serif;
+}
