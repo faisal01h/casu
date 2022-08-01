@@ -3,11 +3,14 @@ import Authenticated from '@/Layouts/Authenticated';
 import { Head, Link } from '@inertiajs/inertia-react';
 import axios from 'axios';
 import Feed from '@/Components/Feed';
-import { BiPlus } from 'react-icons/all'
+import { BiPlus } from 'react-icons/all';
+import { month, getStNdRdTh, day, twoDigits } from '@/Utils/functions';
 
 export default function Dashboard(props) {
     const [ lastTransaction, setLastTransaction ] = useState();
     const [ balance, setBalance ] = useState(0);
+    const [ transactions, setTransactions ] = useState([]);
+    const [ feed, setFeed ] = useState([]);
 
     useEffect(() => {
         axios.get("/api/balance")
@@ -25,7 +28,24 @@ export default function Dashboard(props) {
             })
         })
         .catch(console.error)
+
+        axios.get("/api/transactions")
+        .then((e) => {
+            setTransactions(e.data);
+        })
+        .catch(console.error)
+
     }, [])
+
+    useEffect(() => {
+        let fd = feed.concat(transactions)
+        fd.sort((a, b) => {
+            return a.created_at > b.created_at ? 1 : -1;
+        })
+        .reverse()
+        setFeed(fd);
+        console.log(fd)
+    }, [transactions])
 
     return (
         <Authenticated
@@ -60,15 +80,15 @@ export default function Dashboard(props) {
                         </div>
                     </div>
                     
-                    <div className="flex flex-row">
-                        <Link href="/transaction/new" className="w-1/3 flex flex-col items-center bg-blue-600 dark:bg-indigo-700 p-5 text-white rounded-t-xl md:rounded-tr-none md:rounded-l-xl">
+                    <div className="flex flex-row gap-2">
+                        <Link href="/transaction/new" className="w-1/3 flex flex-col items-center justify-center text-center bg-blue-600 dark:bg-indigo-700 p-5 text-white rounded-xl">
                             <BiPlus className="border-2 border-white rounded" />
                             <span className="plus-jakarta-sans">Tambah transaksi</span>
                         </Link>
-                        <Link href="#" className="w-1/3 flex flex-col items-center bg-slate-200 dark:bg-slate-700 p-5 text-white ">
+                        <Link href="#" className="w-1/3 flex flex-col items-center bg-slate-200 dark:bg-slate-700 p-5 text-white rounded-xl">
                             
                         </Link>
-                        <Link href="#" className="w-1/3 flex flex-col items-center bg-slate-200 dark:bg-slate-700 p-5 text-white rounded-b-xl md:rounded-bl-none md:rounded-r-xl">
+                        <Link href="#" className="w-1/3 flex flex-col items-center bg-slate-200 dark:bg-slate-700 p-5 text-white rounded-xl">
                             
                         </Link>
                     </div>
@@ -76,7 +96,17 @@ export default function Dashboard(props) {
                     <div className="flex flex-col gap-2">
                         <h2 className="font-extrabold text-2xl md:text-4xl">Feed</h2>
                         <div className="flex flex-col gap-2">
-                            <Feed author={"Faisal"} authorid={1} time={"31 Juli 2022"} children={"Test"} type={"text"} />
+                            {
+                                feed && feed.length > 0 ?
+                                feed.map((e, i) => {
+                                    let time = new Date(e.created_at)
+                                    let time_str = `${time.getDate()} ${month.id[time.getMonth()]} ${time.getFullYear()} pukul ${twoDigits(time, 'hours')}.${twoDigits(time, 'minutes')}`
+                                    
+                                    if(e.transaction_code)
+                                        return <Feed key={i} author={e.author.name} authorid={e.author.id} time={time_str} children={`Melakukan transaksi ${e.nama} di ${e.vendor} ${e.lokasi}`} type={"text"} />
+                                    else return null
+                                }) : null
+                            }
                         </div>
                     </div>
                     

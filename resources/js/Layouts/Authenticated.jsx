@@ -126,7 +126,7 @@ export default function Authenticated({ auth, header, children }) {
 
             {header && (
                 <header className="bg-white dark:bg-gray-900 dark:text-white shadow flex flex-col items-start justify-start w-screen pt-2 pb-4">
-                    <div className="md:px-40 sm:px-6">{header}</div>
+                    <div className="md:px-40 sm:px-6 px-5">{header}</div>
                     {/* <button className="flex flex-row gap-1 items-center md:px-40 text-xs"><BiChevronLeft /> Back</button> */}
                 </header>
             )}

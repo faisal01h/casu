@@ -32,7 +32,7 @@ export default function Transactions(props) {
 
         axios.get("/api/transactions")
         .then((e) => {
-            setTransactions(e.data);
+            setTransactions(e.data.reverse());
         })
         .catch(console.error)
 
