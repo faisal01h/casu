@@ -23,7 +23,7 @@ export default function Navbar({props, hideLogo = false}) {
     ]
 
     return (
-        <div className="flex flex-row px-7 py-5 items-center justify-between dark:text-white">
+        <div className="flex flex-row px-7 py-5 items-center justify-between dark:text-white absolute w-screen bg-slate-200 dark:bg-gray-900">
             {hideLogo !== true ? <Link href="/" children={<ApplicationLogo fontSize={26} />} className="transition-all" /> : <div></div>}
 
             <div className="hidden md:flex flex-row gap-2">
@@ -40,7 +40,7 @@ export default function Navbar({props, hideLogo = false}) {
                             <BiLogOut />
                         </Button>
                     </div>
-                    : <NavLink href="/login" className="bg-gradient-to-r from-violet-900 to-fuchsia-600 hover:ring-2 hover:dark:ring-white hover:ring-black transition-all" children={"Login"} />
+                    : <NavLink href="/login" className="text-white bg-gradient-to-r from-violet-900 to-fuchsia-600 hover:ring-2 hover:dark:ring-white hover:ring-black transition-all" children={"Login"} />
                 }
             </div>
 
@@ -59,12 +59,12 @@ export default function Navbar({props, hideLogo = false}) {
                         {
                             props && props.isAuth ? 
                             <div className="flex flex-col gap-2">
-                                <NavLink href="/dashboard" className="bg-gradient-to-r from-violet-900 to-fuchsia-600 hover:ring-2 hover:dark:ring-white hover:ring-black transition-all text-white" children={"Dashboard"} />
+                                <NavLink href="/dashboard" className="text-white bg-gradient-to-r from-violet-900 to-fuchsia-600 hover:ring-2 hover:dark:ring-white hover:ring-black transition-all" children={"Dashboard"} />
                                 <Button onClick={() => {Inertia.visit("/logout", {method:"post"})}} className="text-white transition-all flex items-center gap-2 justify-center hover:bg-opacity-10 hover:bg-gray-100 rounded-xl hover:text-rose-600">
                                     <BiLogOut /> Logout
                                 </Button>
                             </div>
-                            : <NavLink href="/login" className="text-white bg-gradient-to-r from-violet-900 to-fuchsia-600 hover:ring-2 hover:dark:ring-white hover:ring-black transition-all" children={"Login"} />
+                            : <NavLink href="/login" className="bg-gradient-to-r from-violet-900 to-fuchsia-600 hover:ring-2 hover:dark:ring-white hover:ring-black transition-all text-white" children={"Login"} />
                         }
                     </div> : null
                 }

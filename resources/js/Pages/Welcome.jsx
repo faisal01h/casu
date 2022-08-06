@@ -25,7 +25,7 @@ export default function Welcome(props) {
                     <h2 className="text-lg">Selamat {greetings()}, {props.auth.user.name.split(" ")[0]}!</h2>
                 </div>
                 : <div className="flex flex-col items-center gap-7">
-                    <Link href="/register" className="bg-gradient-to-r from-blue-500 to-teal-600 w-fit p-3 rounded-xl hover:ring dark:ring-white" children={"Register"} />
+                    <Link href="/register" className="text-white bg-gradient-to-r from-blue-500 to-teal-600 w-fit p-3 rounded-xl hover:ring dark:ring-white" children={"Register"} />
                 </div>
             }
         </Wrapper>

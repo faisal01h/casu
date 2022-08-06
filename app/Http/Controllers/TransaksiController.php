@@ -10,12 +10,6 @@ use Inertia\Inertia;
  
 class TransaksiController extends Controller
 {
-    /**
-     * Show the profile for a given user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
 
     public function getOverview() {
         $last = Transaksi::where('tipe', 1)->get();
@@ -74,6 +68,34 @@ class TransaksiController extends Controller
             'transaction_code' => $randomString
         ]);
         return Inertia::render("Transactions");
+    }
+
+    public function removeTransactionApi(Request $request) {
+        $request->validate([
+            'transaction_code' => 'required|string',
+        ]);
+        $deleted = Transaksi::where('transaction_code', $request->transaction_code)->delete();
+        return json_encode($deleted);
+    }
+
+    public function updateTransactionApi(Request $request) {
+        $request->validate([
+            'transaction_code' => 'required|string',
+        ]);
+        $trx = Transaksi::where('transaction_code', $request->transaction_code);
+        $request->nama ? $trx->nama = $request->nama : false;
+        $request->debit ? $trx->debit = $request->debit : false;
+        $request->vendor ? $trx->vendor = $request->vendor : false;
+        $request->lokasi ? $trx->lokasi = $request->lokasi : false;
+
+        if($trx->isDirty()) {
+            $trx->save();
+            return json_encode(array(
+                "message" => "OK"
+            ));
+        } else return json_encode(array(
+            "message" => "No change was made"
+        ));
     }
 
     public function getBalance() {
